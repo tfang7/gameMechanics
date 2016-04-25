@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameMechanicsWASD.CSharp.Plugins", "GameMechanicsWASD.CSharp.Plugins.csproj", "{A916F407-EAC6-3348-4611-B567C3441499}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameMechanicsWASD.CSharp", "GameMechanicsWASD.CSharp.csproj", "{822932E5-4BDD-FFB5-0D3A-9E48296C6177}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameMechanicsWASD.CSharp.Editor", "GameMechanicsWASD.CSharp.Editor.csproj", "{14886F52-AF37-FF0E-5FCC-12229268EA5E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A916F407-EAC6-3348-4611-B567C3441499}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A916F407-EAC6-3348-4611-B567C3441499}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A916F407-EAC6-3348-4611-B567C3441499}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A916F407-EAC6-3348-4611-B567C3441499}.Release|Any CPU.Build.0 = Release|Any CPU
+		{822932E5-4BDD-FFB5-0D3A-9E48296C6177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{822932E5-4BDD-FFB5-0D3A-9E48296C6177}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{822932E5-4BDD-FFB5-0D3A-9E48296C6177}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{822932E5-4BDD-FFB5-0D3A-9E48296C6177}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14886F52-AF37-FF0E-5FCC-12229268EA5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14886F52-AF37-FF0E-5FCC-12229268EA5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14886F52-AF37-FF0E-5FCC-12229268EA5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14886F52-AF37-FF0E-5FCC-12229268EA5E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
