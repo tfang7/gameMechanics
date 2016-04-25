@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{14886F52-AF37-FF0E-5FCC-12229268EA5E}</ProjectGuid>
+    <ProjectGuid>{34991BB1-4393-6B24-F77D-828583C6DB35}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -93,13 +93,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="GameMechanicsWASD.CSharp.Plugins.csproj">
-      <Project>{A916F407-EAC6-3348-4611-B567C3441499}</Project>
-      <Name>GameMechanicsWASD.CSharp.Plugins</Name>
+    <ProjectReference Include="gameMechanics.CSharp.Plugins.csproj">
+      <Project>{B9C4B037-F3C2-B874-0A84-A045810B8817}</Project>
+      <Name>gameMechanics.CSharp.Plugins</Name>
     </ProjectReference>
-    <ProjectReference Include="GameMechanicsWASD.CSharp.csproj">
-      <Project>{822932E5-4BDD-FFB5-0D3A-9E48296C6177}</Project>
-      <Name>GameMechanicsWASD.CSharp</Name>
+    <ProjectReference Include="gameMechanics.CSharp.csproj">
+      <Project>{5DA43D86-0527-579C-88FE-584E067282EB}</Project>
+      <Name>gameMechanics.CSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
