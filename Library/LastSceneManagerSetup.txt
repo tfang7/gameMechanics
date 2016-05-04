@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/final.unity
+- path: Assets/physicsScene.unity
   isLoaded: 1
   isActive: 1
