@@ -29,6 +29,5 @@ public class GameTime : MonoBehaviour {
             
         }
         _timeOfDay += Time.deltaTime;
-        Debug.Log(_timeOfDay);
     }
 }

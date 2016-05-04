@@ -6,6 +6,7 @@ public class EndlessController : MonoBehaviour {
 
     
     public float speed;
+    public float score;
 
     public float minVel, maxVel;
     
@@ -20,8 +21,10 @@ public class EndlessController : MonoBehaviour {
     Vector3 startRot;
     float barrelRollSpeed = 5.0f;
     Quaternion rotx;
+    Rigidbody rb;
     // Use this for initialization
     void Start () {
+        rb = GetComponent<Rigidbody>();
         x = transform.position.x;
         y = transform.position.y;
         z = transform.position.z;
@@ -37,7 +40,6 @@ public class EndlessController : MonoBehaviour {
         Jump = CrossPlatformInputManager.GetButton("Jump");
         //print(flockList.Count);
         x += speed;
-
         if (zAxis != 0)
         {
             z += speed * Time.deltaTime * zAxis * 100;
@@ -75,11 +77,15 @@ public class EndlessController : MonoBehaviour {
             
         }
     }
-    void OnTriggerEnter(Collider c)
+    void OnCollisionEnter(Collision c)
     {
         if (c.gameObject.tag == "FlockMember")
         {
-           // c.gameObject.SetActive(false);
+            //Debug.Log(c.gameObject.tag);
+         //   Destroy(c.gameObject);
+            score += 100;
+           // Debug.Log(score);
+            // c.gameObject.SetActive(false);
         }
     }
     void InputHandler()
