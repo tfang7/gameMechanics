@@ -30,4 +30,8 @@ public class GameTime : MonoBehaviour {
         }
         _timeOfDay += Time.deltaTime;
     }
+    public float getTime()
+    {
+        return _timeOfDay;
+    }
 }

@@ -21,7 +21,7 @@ public class RigidBodyController : MonoBehaviour {
         BLUE,
         RED
     }
-    public State state;
+    private State state;
 	void Start () {
         mr = GetComponent<MeshRenderer>();
         rbd = GetComponent<Rigidbody>();
@@ -57,7 +57,7 @@ public class RigidBodyController : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         inputHandler();
-        print(state);
+        //print(state);
 	}
     void inputHandler()
     {
@@ -74,6 +74,10 @@ public class RigidBodyController : MonoBehaviour {
         score += value;
         string display = "Score: ";
         display += score.ToString();
+    }
+    public string returnState()
+    {
+        return state.ToString();
     }
     public void SpeedHandler()
     {

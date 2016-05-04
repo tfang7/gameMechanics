@@ -29,7 +29,7 @@ public class SpawnVolume : MonoBehaviour {
             spawnBox = transform.localScale;
             Vector3 rndPosWithin;
             rndPosWithin = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-            rndPosWithin = transform.TransformPoint(rndPosWithin * .5f);
+            rndPosWithin = transform.TransformPoint(rndPosWithin * 1.0f);
 
             GameObject clone = (GameObject)Instantiate(spawnObject, rndPosWithin, transform.rotation);
 
