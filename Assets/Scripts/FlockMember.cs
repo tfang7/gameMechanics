@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FlockMember : MonoBehaviour {
+public class FlockMember : MonoBehaviour
+{
     public float speed = 1.0f;
     public float lifetime = 30.0f;
     public bool inFlock = false;
     float startTime;
     float lifeTimer;
-<<<<<<< HEAD:Assets/FlockMember.cs
     public Rigidbody rb;
     public GameObject gameState;
     private float scoreValue = 50.0f;
@@ -23,12 +23,10 @@ public class FlockMember : MonoBehaviour {
     public Material[] mats;
     public State state;
     // Use this for initialization
-    void Start () {
-=======
     GameObject Player;
-	// Use this for initialization
-	void Start () {
->>>>>>> 9d26a941986e14bfef2da2d259cc5c19ec48e388:Assets/Scripts/FlockMember.cs
+    // Use this for initialization
+    void Start()
+    {
         startTime = Time.time;
         alive = true;
         mr = GetComponent<MeshRenderer>();
@@ -36,10 +34,10 @@ public class FlockMember : MonoBehaviour {
         rb.useGravity = false;
         rb.velocity = transform.forward * speed * -1;
         lifeTimer = startTime + lifetime;
-<<<<<<< HEAD:Assets/FlockMember.cs
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<RigidBodyController>();
-        StartCoroutine("FSM");
         RandomState();
+        Player = GameObject.FindGameObjectWithTag("Player");
+
     }
 
     IEnumerator FSM()
@@ -57,22 +55,13 @@ public class FlockMember : MonoBehaviour {
                 case State.BLUE:
                     Blue();
                     break;
-=======
-        Player = GameObject.FindGameObjectWithTag("Player");
-        
-        
-    }
-	
-	// Update is called once per frame
-	void Update () {
->>>>>>> 9d26a941986e14bfef2da2d259cc5c19ec48e388:Assets/Scripts/FlockMember.cs
-
 
             }
             yield return null;
-
         }
+        StartCoroutine("FSM");
     }
+
     // Update is called once per frame
     public void Blue()
     {
@@ -88,7 +77,7 @@ public class FlockMember : MonoBehaviour {
     }
     public void RandomState()
     {
-        float random = Random.Range(0,4);
+        float random = Random.Range(0, 4);
         state = State.NEUTRAL;
         /*
         if (random == 1)
@@ -104,7 +93,8 @@ public class FlockMember : MonoBehaviour {
         }
         */
     }
-    void Update () {
+    void Update()
+    {
         if (lifeTimer <= Time.time)
         {
             lifeTimer = Time.time + lifetime;
@@ -112,8 +102,7 @@ public class FlockMember : MonoBehaviour {
             //Destroy.gameObject);
 
         }
-<<<<<<< HEAD:Assets/FlockMember.cs
-	}
+    }
     void OnTriggerEnter(Collider c)
     {
         if (c.gameObject.tag == "Player")
@@ -126,21 +115,8 @@ public class FlockMember : MonoBehaviour {
             {
                 Debug.Log(playerState);
             }
-=======
 
-    }
-    void OnTriggerEnter(Collider c)
-    {
-        if (c.gameObject.tag == "Player")
-        {            
->>>>>>> 9d26a941986e14bfef2da2d259cc5c19ec48e388:Assets/Scripts/FlockMember.cs
-            if (gameObject != null)
-            {
-                Destroy(gameObject);
-
-            }
-
-            //c.gameObject.SendMessage("updateScore", scoreValue, SendMessageOptions.DontRequireReceiver);
         }
     }
 }
+ 
