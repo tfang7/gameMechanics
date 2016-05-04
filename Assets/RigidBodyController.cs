@@ -8,12 +8,17 @@ public class RigidBodyController : MonoBehaviour {
     public GameObject gameState;
     public float speed = 10.0f;
     public float score = 0.0f;
+    public float scoreMultiplier = 1.0f;
     public int combo = 0;
     public float velocity,acceleration;
     public float xInput,yInput;
     public bool alive;
     public MeshRenderer mr;
     public Material[] mats;
+    public LayerMask pickupLayerMask;
+    public Vector3 FieldPosition;
+    public int FieldRadius;
+    public int FieldForce;
 	// Use this for initialization
     public enum State
     {
@@ -29,6 +34,9 @@ public class RigidBodyController : MonoBehaviour {
         rbd.velocity = transform.forward * speed;
         gameState = GameObject.FindGameObjectWithTag("GameController");
         //gameState.SendMessage()
+        FieldRadius = 20;
+        FieldPosition = transform.position;
+        pickupLayerMask = LayerMask.NameToLayer("FlockMember");
         StartCoroutine("FSM");
         alive = true;
         
@@ -57,8 +65,25 @@ public class RigidBodyController : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         inputHandler();
+        scoreMultiplier = combo * 0.1f;
+        print(scoreMultiplier);
         //print(state);
 	}
+    void FixedUpdate()
+    {
+        /*
+        Collider[] cols = Physics.OverlapSphere(transform.position + FieldPosition, FieldRadius, pickupLayerMask);
+        Rigidbody temp_rb = null;
+        for (int i = 0; i < cols.Length; i++)
+        {
+            temp_rb = (cols[i].GetComponent<Rigidbody>());
+            if (temp_rb == null)
+            {
+                continue;
+            }
+            temp_rb.AddExplosionForce(FieldForce * -1, transform.position + FieldPosition, FieldRadius);
+        }*/
+    }
     void inputHandler()
     {
         xInput =  Input.GetAxis("Horizontal");

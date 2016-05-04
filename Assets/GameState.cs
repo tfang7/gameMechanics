@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class GameState : MonoBehaviour {
     public float Score = 0.0f;
     public string State = "NEUTRAL";
+    public int Combo = 0;
     public float Time;
     public GameObject ScoreText;
     public GUIText text;
@@ -13,6 +14,7 @@ public class GameState : MonoBehaviour {
     public GameObject clock;
     private GameTime timeRef;
     public RigidBodyController player;
+    private float currentTime;
 	// Use this for initialization
 	void Start () {
         timeRef = clock.GetComponent<GameTime>();
@@ -25,15 +27,17 @@ public class GameState : MonoBehaviour {
 	void Update () {
         //ScoreText.GetComponent<Text>().text = displayText.text;
         updateGUI();
+        
 
     }
     void updateGUI()
     {
         Score = player.score;
         State = player.returnState();
-        float displayTime = Mathf.Round(timeRef.getTime());
+        Combo = player.combo;
+        float displayTime = timeRef.getTime();
          // Debug.Log((timeRef.getTime()));
-        ScoreText.GetComponent<Text>().text = "Score" + Score.ToString() + "\n" + State + "\n" + displayTime.ToString();
+        ScoreText.GetComponent<Text>().text = "Score" + Score.ToString() + "\n" + State + "\n" + displayTime.ToString() + "\n" + Combo.ToString();
 
     }
 

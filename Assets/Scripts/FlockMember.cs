@@ -5,11 +5,11 @@ public class FlockMember : MonoBehaviour
 {
     public float speed = 1.0f;
     public float magnetSpeed = 10.0f;
+    public float magnetRadius = 30.0f;
     public float lifetime = 30.0f;
     public bool inFlock = false;
     float startTime;
     float lifeTimer;
-    public Rigidbody rb;
     public GameObject gameState;
     private float scoreValue = 50.0f;
     public RigidBodyController player;
@@ -34,14 +34,12 @@ public class FlockMember : MonoBehaviour
         alive = true;
         attracted = false;
         mr = GetComponent<MeshRenderer>();
-        rb = GetComponent<Rigidbody>();
-        rb.useGravity = false;
-        rb.velocity = transform.forward * speed * -1;
+        //rb.useGravity = false;
+        //rb.velocity = transform.forward * speed * -1;
         lifeTimer = startTime + lifetime;
         playerObject = GameObject.FindGameObjectWithTag("Player");
         player = playerObject.GetComponent<RigidBodyController>();
         RandomState();
-        print(state.ToString());
     }
 
     IEnumerator FSM()
@@ -102,26 +100,29 @@ public class FlockMember : MonoBehaviour
     }
     void FixedUpdate()
     {
-        float playerdist = Vector3.Distance(transform.position, player.transform.position);
-        if (playerdist > 100)
-        {
-            transform.LookAt(player.transform);
-            rb.AddRelativeForce(Vector3.forward * (speed + magnetSpeed), ForceMode.Force);
-        }
+         magnetCheck();
+    }
+    void magnetCheck()
+    {
+        Vector3 move = new Vector3(0, 0, magnetSpeed * Time.deltaTime * -1);
+        //transform.position = move;
 
+        float playerdist = Vector3.Distance(transform.position, player.transform.position);
+        if (playerdist < magnetRadius && StateCheck())
+        {
+            attracted = true;
+            transform.LookAt(player.transform);
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, magnetSpeed * Time.deltaTime * 10);
+        }
+        else
+        {
+            transform.Translate(move);
+            attracted = false;
+        }
+        
     }
     void Update()
     {
-
-        if (attracted)
-        {
-            //Vector3 field = playerObject.transform.position - transform.position;
-            //float index = (5f - field.magnitude) / 5f;
-           // rb.AddForce(magnetSpeed * field * index);
-            //  Transform dir = transform.TransformDirection - player.transform.TransformDirection;
-        }
-        
-
         if (lifeTimer <= Time.time)
         {
             lifeTimer = Time.time + lifetime;
@@ -134,38 +135,43 @@ public class FlockMember : MonoBehaviour
     {
         if (c.gameObject.tag == "Player")
         {
-
-            // print(player.state);
-            scoreValue = 0.0f;  
-            if (StateCheck())
+            CalculateScore();
+        }
+    }
+    public void CalculateScore()
+    {
+        // print(player.state);
+        scoreValue = 0.0f;
+        float scoreMultiplier = player.scoreMultiplier;
+        if (StateCheck())
+        {
+            attracted = true;
+            //Debug.Log(playerState);
+            if (gameObject != null)
             {
-                attracted = true;
-                //Debug.Log(playerState);
-                if (gameObject != null)
-                    {
-                        scoreValue = 100.0f;//player.updateScore(scoreValue);
-                        Destroy(gameObject);
-                    }
-                
+                scoreValue = 100.0f * scoreMultiplier;//player.updateScore(scoreValue);
+                Destroy(gameObject);
             }
-            else
-            {
-                if (gameObject != null)
-                {
-                    //scoreValue = 50.0f;
-                    //player.updateScore(scoreValue);
-                    //Destroy(gameObject);
-                }
-            }
-            player.updateScore(scoreValue);
 
         }
+        else
+        {
+            if (gameObject != null)
+            {
+                attracted = true;
+                //scoreValue = 50.0f;
+                //player.updateScore(scoreValue);
+                //Destroy(gameObject);
+            }
+        }
+        player.combo++;
+        player.updateScore(scoreValue);
+
     }
     public bool StateCheck()
     {
-        string playerState = (player.returnState());
-        
-        return playerState == state.ToString() || playerState == "NEUTRAL";
+        string playerState = (player.returnState());        
+        return playerState == state.ToString() || state.ToString() == "NEUTRAL";
     }
 }
  
