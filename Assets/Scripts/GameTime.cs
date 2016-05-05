@@ -13,6 +13,7 @@ public class GameTime : MonoBehaviour {
     private const float DEGREES_PER_SECOND = 360 / DAY;
     private float _degreeRotation;
     private float _timeOfDay;
+    private float _gameTimeLength = 250.0f;
     // Use this for initialization
     void Start () {
         _timeOfDay = 0;
@@ -33,5 +34,9 @@ public class GameTime : MonoBehaviour {
     public float getTime()
     {
         return _timeOfDay;
+    }
+    public float getGameLength()
+    {
+        return _gameTimeLength;
     }
 }

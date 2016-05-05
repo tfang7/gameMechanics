@@ -17,6 +17,7 @@ public class GameState : MonoBehaviour {
     public RigidBodyController player;
     public GameObject GameOverPanel;
     private float currentTime;
+    public int hitsLimit;
 	// Use this for initialization
 	void Start () {
         EndGame = false;
@@ -34,12 +35,11 @@ public class GameState : MonoBehaviour {
 	void Update () {
         //ScoreText.GetComponent<Text>().text = displayText.text;
         updateGUI();
-        if (timeRef.getTime() > 300 || player.hitsCounter > 15)
+        if (timeRef.getTime() > (timeRef.getGameLength() + 40.0f) || player.hitsCounter > hitsLimit)
         {
-            GameOverPanel.SetActive(true);
             EndGame = true;
         }
-        if (EndGame && timeRef.getTime() > 310)
+        if (EndGame) 
         {
             quitGame();
         }
@@ -52,7 +52,7 @@ public class GameState : MonoBehaviour {
         Combo = player.combo;
         float displayTime = timeRef.getTime();
         int day = (int) displayTime / 60;
-        // Debug.Log((timeRef.getTime()));
+
         scoreObject.GetComponent<Text>().text = "Score: " + Score.ToString() + "\n" + "State: " + State + "\n" + "Day: " + day.ToString() + "\n" +  "Combo: " + Combo.ToString();
         hitsObject.GetComponent<Text>().text = "Hits Taken: " + player.hitsCounter.ToString();
         
@@ -60,8 +60,6 @@ public class GameState : MonoBehaviour {
     public void quitGame()
     {
         GameOverPanel.SetActive(true);
-        Application.Quit();
-
     }
 
 }
