@@ -7,19 +7,20 @@ public class RigidBodyController : MonoBehaviour {
     public Rigidbody rbd;
     public GameObject gameState;
     public float speed = 10.0f;
+    public float defaultSpeed = 10.0f;
+    public float maxSpeed = 50.0f;
     public float score = 0.0f;
     public float scoreMultiplier = 1.0f;
     public int combo = 0;
-    public float velocity,acceleration;
-    public float xInput,yInput;
+    private float xInput,yInput;
     public bool alive;
     public MeshRenderer mr;
     public Material[] mats;
-    public LayerMask pickupLayerMask;
-    public Vector3 FieldPosition;
-    public int FieldRadius;
-    public int FieldForce;
-	// Use this for initialization
+    public bool powerUp;
+    public float powerUpTime = 10.0f;
+    public int hitsCounter = 0;
+
+    // Use this for initialization
     public enum State
     {
         NEUTRAL,
@@ -34,11 +35,9 @@ public class RigidBodyController : MonoBehaviour {
         rbd.velocity = transform.forward * speed;
         gameState = GameObject.FindGameObjectWithTag("GameController");
         //gameState.SendMessage()
-        FieldRadius = 20;
-        FieldPosition = transform.position;
-        pickupLayerMask = LayerMask.NameToLayer("FlockMember");
         StartCoroutine("FSM");
         alive = true;
+        state = State.RED;
         
 
     }
@@ -65,31 +64,25 @@ public class RigidBodyController : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         inputHandler();
+        SpeedHandler();
         scoreMultiplier = combo * 0.1f;
-        print(scoreMultiplier);
-        //print(state);
-	}
-    void FixedUpdate()
-    {
-        /*
-        Collider[] cols = Physics.OverlapSphere(transform.position + FieldPosition, FieldRadius, pickupLayerMask);
-        Rigidbody temp_rb = null;
-        for (int i = 0; i < cols.Length; i++)
+        
+        if (powerUp)
         {
-            temp_rb = (cols[i].GetComponent<Rigidbody>());
-            if (temp_rb == null)
+            if (powerUpTime <= Time.time)
             {
-                continue;
+                toggleInvuln();
             }
-            temp_rb.AddExplosionForce(FieldForce * -1, transform.position + FieldPosition, FieldRadius);
-        }*/
-    }
+        }
+	}
+
     void inputHandler()
     {
         xInput =  Input.GetAxis("Horizontal");
         yInput = Input.GetAxis("Vertical");
+
+
         Vector3 movement = new Vector3(xInput, yInput, transform.forward.z);
-   
         rbd.velocity = movement * speed;
         StateController();
 
@@ -106,17 +99,35 @@ public class RigidBodyController : MonoBehaviour {
     }
     public void SpeedHandler()
     {
-        if (speed < 100.0f)
+        if (combo == 0)
         {
-            speed++;
+            speed = defaultSpeed;
+        }
+        else if (speed < defaultSpeed)
+        {
+            speed = defaultSpeed;
+        }
+        else if (speed >= maxSpeed)
+        {
+            speed = maxSpeed;
+        }
+        else
+        {
+            speed = defaultSpeed;
+            if (combo > 0)
+            {
+               speed = defaultSpeed + combo * (0.1f);
+            }
         }
     }
     public void StateController()
     {
+
         bool changeState = Input.GetButtonDown("Fire1");
         bool changeState2 = Input.GetButtonDown("Fire2");
 
-        if (changeState)
+
+       if (changeState)
         {
             state = State.BLUE;
             mr.material = mats[0];
@@ -128,6 +139,34 @@ public class RigidBodyController : MonoBehaviour {
             mr.material = mats[1];
 
         }
+        
+
+    }
+    public void toggleInvuln()
+    {
+        powerUp = !powerUp;
+        if (powerUp)
+        {
+            powerUpTime = Time.time + powerUpTime;
+            mr.material = mats[2];
+        }
+        else
+        {
+            if (state == State.BLUE)
+            {
+                mr.material = mats[0];
+            }
+            else
+            {
+                mr.material = mats[1];
+
+            }
+
+        }
+    }
+    public void takeHit()
+    {
+        hitsCounter++;
     }
     public void Blue()
     {

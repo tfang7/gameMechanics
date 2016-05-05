@@ -30,10 +30,18 @@ public class SpawnVolume : MonoBehaviour {
             Vector3 rndPosWithin;
             rndPosWithin = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
             rndPosWithin = transform.TransformPoint(rndPosWithin * 0.5f);
+            if (Vector3.Distance(rndPosWithin, playerTransform.position) < 10)
+            {
+                rndPosWithin = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+                rndPosWithin = transform.TransformPoint(rndPosWithin * 0.5f);
+            }
+            else
+            {
+                GameObject clone = (GameObject)Instantiate(spawnObject, rndPosWithin, transform.rotation);
+            }
 
-            GameObject clone = (GameObject)Instantiate(spawnObject, rndPosWithin, transform.rotation);
 
-            
+
 
 
         }

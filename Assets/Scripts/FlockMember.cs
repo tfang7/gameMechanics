@@ -14,8 +14,12 @@ public class FlockMember : MonoBehaviour
     private float scoreValue = 50.0f;
     public RigidBodyController player;
     public GameObject playerObject;
+    public GameObject clock;
+    public float actualTime;
     public bool alive;
     public bool attracted;
+    private GameTime timer;
+
     public enum State
     {
         NEUTRAL,
@@ -30,6 +34,8 @@ public class FlockMember : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        clock = GameObject.Find("GameTime");
+        timer = clock.GetComponent<GameTime>();
         startTime = Time.time;
         alive = true;
         attracted = false;
@@ -80,13 +86,56 @@ public class FlockMember : MonoBehaviour
     public void RandomState()
     {
         float random = Random.Range(0, 4);
-      //  state = State.BLUE;
-        
-        if (random == 1)
+        float timeOfDay = timer.getTime();
+        if (timeOfDay >= 180)
         {
-            state = State.BLUE;
-            Blue();
-        } else if (random == 2)
+            transform.localScale += new Vector3(1.0f, 1.0f, 1.0f);
+            random = Random.Range(0, 7);
+            if (random <= 4)
+            {
+                state = State.RED;
+                Red();
+            }
+            else
+            {
+                state = State.BLUE;
+                Blue();
+            }
+        }
+        else if (timeOfDay >= 120)
+        {
+            transform.localScale += new Vector3(0.5f, 0.5f, 0.5f);
+            random = Random.Range(0, 7);
+            if (random <= 2)
+            {
+                state = State.NEUTRAL;
+                White();
+            } else if (random > 3 && random < 5) {
+                state = State.RED;
+                Red();
+            }
+            else
+            {
+                state = State.BLUE;
+                Blue();
+            }
+        }
+        else if (timeOfDay >= 60)
+        {
+
+            transform.localScale += new Vector3(0.5f, 0.5f, 0.5f);
+            if (random <= 1)
+            {
+                state = State.NEUTRAL;
+                White();
+            }
+            else
+            {
+                state = State.BLUE;
+                Blue();
+            }
+        }
+        else if (timeOfDay >= 0)
         {
             state = State.NEUTRAL;
             White();
@@ -104,15 +153,13 @@ public class FlockMember : MonoBehaviour
     }
     void magnetCheck()
     {
-        Vector3 move = new Vector3(0, 0, magnetSpeed * Time.deltaTime * -1);
-        //transform.position = move;
-
+        Vector3 move = new Vector3(0, 0, speed * Time.deltaTime * -1);
         float playerdist = Vector3.Distance(transform.position, player.transform.position);
         if (playerdist < magnetRadius && StateCheck())
         {
             attracted = true;
             transform.LookAt(player.transform);
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, magnetSpeed * Time.deltaTime * 10);
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, magnetSpeed * Time.deltaTime * 1);
         }
         else
         {
@@ -123,6 +170,7 @@ public class FlockMember : MonoBehaviour
     }
     void Update()
     {
+        speed = speed + (0.001f) * timer.getTime();
         if (lifeTimer <= Time.time)
         {
             lifeTimer = Time.time + lifetime;
@@ -136,6 +184,12 @@ public class FlockMember : MonoBehaviour
         if (c.gameObject.tag == "Player")
         {
             CalculateScore();
+            if (!StateCheck())
+            {
+                player.combo = 0;
+                player.score /= 10;
+                player.takeHit();
+            }
         }
     }
     public void CalculateScore()
@@ -159,9 +213,6 @@ public class FlockMember : MonoBehaviour
             if (gameObject != null)
             {
                 attracted = true;
-                //scoreValue = 50.0f;
-                //player.updateScore(scoreValue);
-                //Destroy(gameObject);
             }
         }
         player.combo++;
@@ -171,7 +222,7 @@ public class FlockMember : MonoBehaviour
     public bool StateCheck()
     {
         string playerState = (player.returnState());        
-        return playerState == state.ToString() || state.ToString() == "NEUTRAL";
+        return playerState == state.ToString() || state.ToString() == "NEUTRAL" || player.powerUp == true;
     }
 }
  
